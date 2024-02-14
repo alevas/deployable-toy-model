@@ -10,7 +10,7 @@ from sklearn.preprocessing import LabelEncoder
 from xgboost import XGBClassifier
 
 import configs
-from app.utils import ModelTypes
+from app.utils.utils_classifier import ModelTypes
 
 
 class ClassPredictor:

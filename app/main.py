@@ -8,7 +8,7 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 from matplotlib import pyplot as plt
 from sklearn.metrics import classification_report
 from app.model import ClassPredictor
-from app.utils import DataPreprocessor
+from app.utils.data_preprocessor import DataPreprocessor
 from app.utils.utils_generic import load_model_preprocessor, \
     save_predictions, \
     ModelPreprocessor
@@ -92,8 +92,10 @@ def train_predict(payload: dict,
     csv_train = payload["csv_train"]
 
     ModelPreprocessor.preprocessor = DataPreprocessor(train_set_path=csv_train,
-                                                     test_set_path=payload["csv_test"] if "csv_test" in payload else '',
-                                                      label_col_name=payload["label_col_name"])
+                                                      test_set_path=payload[
+                                                          "csv_test"] if "csv_test" in payload else '',
+                                                      label_col_name=payload[
+                                                          "label_col_name"])
     ModelPreprocessor.preprocessor.preprocess_data()
 
     X_train, X_test, y_train, y_test = ModelPreprocessor.preprocessor.get_data_split()
@@ -117,13 +119,13 @@ def train_predict(payload: dict,
     ModelPreprocessor.model.save_model()
     ModelPreprocessor.preprocessor.save_preprocessor(destroy_df=False)
 
-
     # Confusion matrix for the XGBoost model
     confusion_matrix_ = confusion_matrix(y_test, predict_test)
     confusion_matrix_display_ = ConfusionMatrixDisplay(confusion_matrix_,
                                                        display_labels=ModelPreprocessor.preprocessor.le.classes_)
 
-    confusion_matrix_display_.plot(cmap="Oranges").figure_.savefig("confusion_matrix.jpg")
+    confusion_matrix_display_.plot(cmap="Oranges").figure_.savefig(
+        "confusion_matrix.jpg")
 
     return f"Accuracy on the train set: {accuracy_train} \n" \
            f"Accuracy on the test set: {accuracy_test}"

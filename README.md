@@ -73,11 +73,10 @@ Again, the service listens to http://127.0.0.1:8000.
 
 To train and retrieve the predictions for the first time, use a payload such:
 ```shell
-curl --location 'http://127.0.0.1:8000/train_predict' \
---header 'Content-Type: application/json' \
---data '{
-    "csv_input_path": "data/raw/train.csv"
+curl --location 'http://127.0.0.1:8000/train_predict' --header 'Content-Type: application/json' --data '{
+    "csv_train": "data/raw/train.csv", "label_col_name": "Class"
 }'
+
 ```
 
 After the model has been trained, the endpoint `predict` can be used to perform the same operation

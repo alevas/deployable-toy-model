@@ -5,8 +5,8 @@ from typing import Tuple
 import numpy as np
 
 import configs
-from app import ClassPredictor
-from app.utils import DataPreprocessor
+from app.model import ClassPredictor
+from app.utils.data_preprocessor import DataPreprocessor
 
 
 class ModelPreprocessor:
